@@ -68,22 +68,23 @@ const gallery = document.querySelector('.gallery');
 
 const markup = images
   .map(
-    elem => `<li class="gallery-item">
-  <a class="gallery-link" href="${elem.original}">
-    <img
-      class="gallery-image"
-      src="${elem.preview}"
-      data-source="${elem.original}"
-      alt="${elem.description}"
-      width='360'
-      height='200'
-    />
-  </a>
-</li>`,
+    elem =>
+      `<li class="gallery-item">
+        <a class="gallery-link" href="${elem.original}">
+          <img
+            class="gallery-image"
+            src="${elem.preview}"
+            data-source="${elem.original}"
+            alt="${elem.description}"
+            width='360'
+            height='200'
+          />
+        </a>
+      </li>`,
   )
   .join('');
 
-gallery.insertAdjacentHTML('afterbegin', markup);
+gallery.innerHTML = markup;
 
 gallery.addEventListener('click', event => {
   event.preventDefault();
@@ -98,11 +99,15 @@ gallery.addEventListener('click', event => {
     closable: false,
     className: 'modal',
     onShow: instance => {
-      document.addEventListener('keydown', event => {
-        if (event.code === 'Escape') {
-          instance.close();
-        }
-      });
+      document.addEventListener(
+        'keydown',
+        event => {
+          if (event.code === 'Escape') {
+            instance.close();
+          }
+        },
+        { once: true },
+      );
     },
   });
 
