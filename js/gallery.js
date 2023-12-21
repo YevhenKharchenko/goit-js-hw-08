@@ -95,19 +95,20 @@ gallery.addEventListener('click', event => {
 
   const html = `<img src="${event.target.dataset.source}" width='1112' height='640'/>`;
 
+  const escapeKey = event => {
+    if (event.code === 'Escape') {
+      instance.close();
+    }
+  };
+
   const instance = basicLightbox.create(html, {
     closable: false,
     className: 'modal',
-    onShow: instance => {
-      document.addEventListener(
-        'keydown',
-        event => {
-          if (event.code === 'Escape') {
-            instance.close();
-          }
-        },
-        { once: true },
-      );
+    onShow: () => {
+      document.addEventListener('keydown', escapeKey);
+    },
+    onClose: () => {
+      document.removeEventListener('keydown', escapeKey);
     },
   });
 
